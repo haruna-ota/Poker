@@ -34,9 +34,9 @@ class HandTest extends Specification {
         new Hand(cards).isFlush() == exp
 
         where:
-        cards                                          | exp
-        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6),] | true    //ストレートも含
-        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(D, 6),] | false
+        cards                                         | exp
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)] | true    //ストレートも含
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(D, 6)] | false
 
     }
 }
