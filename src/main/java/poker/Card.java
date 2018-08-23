@@ -20,4 +20,9 @@ public class Card {
     public CardSuitEnum getSuit() {
         return suit;
     }
+
+    //getter
+    public int getRank(){
+        return rank;
+    }
 }
