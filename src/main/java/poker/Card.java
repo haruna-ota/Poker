@@ -15,4 +15,9 @@ public class Card {
     public String toString() {
         return suit.toString() + "-" + rank;
     }
+
+    //getter
+    public CardSuitEnum getSuit() {
+        return suit;
+    }
 }

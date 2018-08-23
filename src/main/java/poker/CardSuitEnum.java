@@ -1,8 +1,8 @@
 package poker;
 
 public enum CardSuitEnum {
-    HEART,  //ハート
-    SPADE,  //スペード
-    CLUB,   //クラブ
-    DIAMOND //ダイヤ
+    H,  //ハート
+    S,  //スペード
+    C,   //クラブ
+    D //ダイヤ
 }

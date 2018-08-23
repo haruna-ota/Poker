@@ -8,11 +8,11 @@ class CardTest extends Specification {
         new Card(suit, rank).toString() == exp
 
         where:
-        suit               | rank | exp
-        CardSuitEnum.HEART | 2    | "HEART-2"
-        CardSuitEnum.HEART | 3    | "HEART-3"
-        CardSuitEnum.HEART | 4    | "HEART-4"
-        CardSuitEnum.HEART | 5    | "HEART-5"
-        CardSuitEnum.HEART | 6    | "HEART-6"
+        suit           | rank | exp
+        CardSuitEnum.H | 2    | "H-2"
+        CardSuitEnum.S | 3    | "S-3"
+        CardSuitEnum.D | 4    | "D-4"
+        CardSuitEnum.C | 13   | "C-13"
+        CardSuitEnum.H | 1    | "H-1"
     }
 }

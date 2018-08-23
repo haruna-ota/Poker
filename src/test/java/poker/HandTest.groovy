@@ -2,21 +2,41 @@ package poker
 
 import spock.lang.Specification
 
-import static poker.CardSuitEnum.HEART
+import static poker.CardSuitEnum.*
 
 class HandTest extends Specification {
+
+    //カードを生成する
+    private def $(CardSuitEnum suit, int rank) {
+        return new Card(suit, rank)
+
+    }
+
+    //手札のtoStringのテスト(表示)
     def toStringTest() {
         expect:
-        //List<Card> cards = Arrays.asList(new Card(CardSuitEnum.HEART, 2), new Card(CardSuitEnum.HEART, 3))
-        //def cards = [new Card(HEART, 2), new Card(HEART, 3)]
+        //List<Card> cards = Arrays.asList($(CardSuitEnum.H, 2), $(CardSuitEnum.H, 3))
+        //def cards = [$(H, 2), $(H, 3)]
         //Hand hand = new Hand(cards)
         //def hand = new Hand(cards)
-        //hand.toString() == "[HEART-2, HEART-3]"
+        //hand.toString() == "[H-2, H-3]"
         //hand.toString() == exp
         new Hand(cards).toString() == exp
 
         where:
-        cards                                    | exp
-        [new Card(HEART, 2), new Card(HEART, 3)] | "[HEART-2, HEART-3]"
+        cards                                            | exp
+        [$(H, 1), $(H, 2), $(D, 11), $(S, 12), $(C, 13)] | "[H-1, H-2, D-11, S-12, C-13]"
+    }
+
+    //役判定のテスト(FLUSH)
+    def flushTest() {
+        expect:
+        new Hand(cards).isFlush() == exp
+
+        where:
+        cards                                          | exp
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6),] | true    //ストレートも含
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(D, 6),] | false
+
     }
 }
