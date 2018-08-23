@@ -27,4 +27,20 @@ public class Hand {
         //手札5枚が全て同じマークだった場合trueを返す
         return sameSuitCount == 5;
     }
+
+    //ワンペアかどうか判断するメソッド
+    public boolean isOnePair() {
+        int sameRankCount = 1;  //手札に任意のランクが何枚あるか数える
+        for (int i = 0; i < hand.size(); i++) {
+            for (int j = i + 1; j < hand.size(); j++) { //一個ずらしたものから比較を始める
+                if (hand.get(i).getRank() == hand.get(j).getRank()) {
+                    sameRankCount++;
+                }
+            }
+            if (sameRankCount >= 2) {   //同じランクが2枚以上になった場合、確認終了
+                break;
+            }
+        }
+        return sameRankCount >= 2;  //手札5枚のうち2枚以上が同じランクだった場合trueを返す
+    }
 }

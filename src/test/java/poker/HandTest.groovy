@@ -39,4 +39,17 @@ class HandTest extends Specification {
         [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(D, 6)] | false
 
     }
+
+    //役判定のテスト(ONE_PAIR)
+    def onePairTest() {
+        expect:
+        new Hand(cards).isOnePair() == exp
+
+        where:
+        cards                                          | exp
+        [$(H, 3), $(D, 2), $(H, 4), $(H, 2), $(D, 6)]  | true
+        [$(H, 2), $(D, 3), $(H, 5), $(S, 2), $(C, 2)]  | true
+        [$(H, 2), $(D, 2), $(S, 13), $(S, 2), $(C, 2)] | true
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]  | false
+    }
 }
