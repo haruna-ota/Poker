@@ -30,17 +30,27 @@ public class Hand {
 
     //ワンペアかどうか判断するメソッド
     public boolean isOnePair() {
-        int sameRankCount = 1;  //手札に任意のランクが何枚あるか数える
+        return countTheNumberOfSameRankCard() >= 2;  //手札5枚のうち2枚以上が同じランクだった場合trueを返す
+    }
+
+    //手札に任意のランクが何枚あるか数えるメソッド(最大値)
+    private int countTheNumberOfSameRankCard() {
+        int sameRankCount = 0;  //手札に任意のランクが何枚あるか数える
+        int sameRankCountOfMax = 0;
         for (int i = 0; i < hand.size(); i++) {
             for (int j = i + 1; j < hand.size(); j++) { //一個ずらしたものから比較を始める
                 if (hand.get(i).getRank() == hand.get(j).getRank()) {
                     sameRankCount++;
+                    if (sameRankCount > sameRankCountOfMax) {   //値の更新(最大枚数をとる)
+                        sameRankCountOfMax = sameRankCount;
+                    }
                 }
             }
-            if (sameRankCount >= 2) {   //同じランクが2枚以上になった場合、確認終了
-                break;
-            }
+            sameRankCount = 0;  //jが1週周りきったらカウントリセット
         }
-        return sameRankCount >= 2;  //手札5枚のうち2枚以上が同じランクだった場合trueを返す
+        if (sameRankCountOfMax > 0) {   //手札に同じランクが1枚以上あった場合、比較元の1枚を加える
+            sameRankCountOfMax = sameRankCountOfMax + 1;
+        }
+        return sameRankCountOfMax;
     }
 }
