@@ -53,4 +53,31 @@ class HandTest extends Specification {
         [$(H, 2), $(D, 2), $(S, 13), $(S, 2), $(C, 2)] | true   //手札に同じランクが4枚
         [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]  | false  //手札に同じランクが0枚
     }
+
+    //役判定のテスト(THREE_OF_A_KIND)
+    def threeOfAKindTest() {
+        expect:
+        new Hand(cards).isThreeOfAKind() == exp
+
+        where:
+        cards                                          | exp
+        [$(H, 3), $(D, 3), $(S, 3), $(H, 4), $(D, 5)]  | true   //手札に同じランクが3枚
+        [$(H, 3), $(D, 2), $(S, 3), $(S, 2), $(C, 2)]  | true   //手札に同じランクが2枚と3枚
+        [$(H, 2), $(D, 2), $(S, 13), $(S, 2), $(C, 2)] | true   //手札に同じランクが4枚
+        [$(H, 3), $(D, 2), $(S, 4), $(S, 5), $(C, 2)]  | false   //手札に同じランクが2枚
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]  | false  //手札に同じランクが0枚
+    }
+
+    //役判定のテスト(FOUR_OF_A_KIND)
+    def fourOfAKindTest() {
+        expect:
+        new Hand(cards).isFourOfAKind() == exp
+
+        where:
+        cards                                          | exp
+        [$(H, 2), $(D, 2), $(S, 2), $(S, 11), $(C, 2)] | true   //手札に同じランクが4枚
+        [$(H, 3), $(D, 2), $(S, 3), $(S, 2), $(C, 2)]  | false  //手札に同じランクが2枚と3枚
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]  | false  //手札に同じランクが0枚
+    }
+
 }
