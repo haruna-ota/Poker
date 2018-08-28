@@ -30,7 +30,7 @@ public class Hand {
 
     //ワンペアかどうか判断するメソッド
     public boolean isOnePair() {
-        return countTheNumberOfSameRankCard() >= 2;  //手札5枚のうち2枚以上が同じランクだった場合trueを返す
+        return countTheNumberOfPairs() >= 1;  //手札5枚のうちペアカードが1組以上あった場合trueを返す
     }
 
     //3カードかどうか判断するメソッド
@@ -41,6 +41,11 @@ public class Hand {
     //4カードかどうか判断するメソッド
     public boolean isFourOfAKind() {
         return countTheNumberOfSameRankCard() == 4;  //手札5枚のうち4枚が同じランクだった場合trueを返す
+    }
+
+    //2ペアかどうか判断するメソッド
+    public boolean isTwoPair() {
+        return countTheNumberOfPairs() == 2;    //手札5枚のうちペアカードが2組あった場合trueを返す
     }
 
     //手札に任意のランクが何枚あるか数えるメソッド(最大値)
@@ -62,5 +67,26 @@ public class Hand {
             sameRankCountOfMax = sameRankCountOfMax + 1;
         }
         return sameRankCountOfMax;
+    }
+
+    //手札にペアがいくつあるか計算する
+    private int countTheNumberOfPairs() {
+        int sameRankCount = 0;
+        int numberOfPairs = 0;
+        for (int i = 0; i < hand.size(); i++) {
+            for (int j = i + 1; j < hand.size(); j++) { //一個ずらしたものから比較を始める
+                if (hand.get(i).getRank() == hand.get(j).getRank()) {
+                    sameRankCount++;
+                    if (sameRankCount == 2) {   //同じランクが2枚見つかったら
+                        sameRankCount = 0;      //カウントリセット（ペア1組出来上がり済）
+                    }
+                }
+            }
+            if (sameRankCount > 0) {
+                numberOfPairs++;
+            }
+            sameRankCount = 0;  //jが1週周りきったらカウントリセット
+        }
+        return numberOfPairs;
     }
 }

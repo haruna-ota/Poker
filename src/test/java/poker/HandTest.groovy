@@ -80,4 +80,16 @@ class HandTest extends Specification {
         [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]  | false  //手札に同じランクが0枚
     }
 
+    //役判定のテスト(TWO_PAIR)
+    def twoPairTest() {
+        expect:
+        new Hand(cards).isTwoPair() == exp
+
+        where:
+        cards                                         | exp
+        [$(H, 7), $(D, 5), $(H, 2), $(C, 5), $(S, 2)] | true   //2と5の2ペア
+        [$(H, 2), $(S, 2), $(D, 3), $(D, 2), $(C, 2)] | true   //2と2の2ペア
+        [$(H, 4), $(H, 5), $(S, 3), $(H, 2), $(D, 3)] | false  //3の1ペア
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)] | false  //0ペア
+    }
 }
