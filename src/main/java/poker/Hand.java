@@ -33,6 +33,16 @@ public class Hand {
         return countTheNumberOfSameRankCard() >= 2;  //手札5枚のうち2枚以上が同じランクだった場合trueを返す
     }
 
+    //3カードかどうか判断するメソッド
+    public boolean isThreeOfAKind() {
+        return countTheNumberOfSameRankCard() >= 3;  //手札5枚のうち3枚以上が同じランクだった場合trueを返す
+    }
+
+    //4カードかどうか判断するメソッド
+    public boolean isFourOfAKind() {
+        return countTheNumberOfSameRankCard() == 4;  //手札5枚のうち4枚が同じランクだった場合trueを返す
+    }
+
     //手札に任意のランクが何枚あるか数えるメソッド(最大値)
     private int countTheNumberOfSameRankCard() {
         int sameRankCount = 0;  //手札に任意のランクが何枚あるか数える
