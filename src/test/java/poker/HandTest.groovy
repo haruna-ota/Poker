@@ -63,7 +63,7 @@ class HandTest extends Specification {
         cards                                          | exp
         [$(H, 3), $(D, 3), $(S, 3), $(H, 4), $(D, 5)]  | true   //手札に同じランクが3枚
         [$(H, 3), $(D, 2), $(S, 3), $(S, 2), $(C, 2)]  | true   //手札に同じランクが2枚と3枚
-        [$(H, 2), $(D, 2), $(S, 13), $(S, 2), $(C, 2)] | true   //手札に同じランクが4枚
+        [$(H, 2), $(D, 2), $(S, 13), $(S, 2), $(C, 2)] | false   //手札に同じランクが4枚
         [$(H, 3), $(D, 2), $(S, 4), $(S, 5), $(C, 2)]  | false   //手札に同じランクが2枚
         [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]  | false  //手札に同じランクが0枚
     }
@@ -92,4 +92,40 @@ class HandTest extends Specification {
         [$(H, 4), $(H, 5), $(S, 3), $(H, 2), $(D, 3)] | false  //3の1ペア
         [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)] | false  //0ペア
     }
+
+    def numberOfTwoPairTest() {
+        expect:
+        new Hand(cards).countTheNumberOfTwoPairs() == exp
+
+        where:
+        cards                                         | exp
+        [$(H, 1), $(H, 2), $(D, 3), $(H, 4), $(H, 5)] | 0
+        [$(H, 1), $(H, 2), $(D, 2), $(H, 4), $(H, 5)] | 1
+        [$(H, 1), $(H, 2), $(D, 2), $(H, 4), $(D, 4)] | 2
+
+    }
+
+    def numberOfThreeOfAKindTest() {
+        expect:
+        new Hand(cards).countTheNumberOfThreeOfAKind() == exp
+
+        where:
+        cards                                         | exp
+        [$(H, 1), $(H, 2), $(D, 2), $(H, 4), $(D, 4)] | 0
+        [$(H, 1), $(H, 2), $(D, 2), $(C, 2), $(H, 5)] | 1
+        [$(H, 2), $(H, 1), $(D, 2), $(C, 2), $(H, 4)] | 1
+
+    }
+
+    def numberOfFourOfAKindTest() {
+        expect:
+        new Hand(cards).countTheNumberOfFourOfAKind() == exp
+
+        where:
+        cards                                         | exp
+        [$(H, 1), $(H, 2), $(D, 2), $(H, 4), $(D, 4)] | 0
+        [$(H, 1), $(H, 2), $(D, 2), $(C, 2), $(S, 2)] | 1
+
+    }
+
 }
