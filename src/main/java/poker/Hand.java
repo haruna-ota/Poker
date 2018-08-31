@@ -1,6 +1,11 @@
 package poker;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Hand {
     private List<Card> hand;    //手札
@@ -30,37 +35,63 @@ public class Hand {
 
     //ワンペアかどうか判断するメソッド
     public boolean isOnePair() {
-        return countTheNumberOfSameRankCard() >= 2;  //手札5枚のうち2枚以上が同じランクだった場合trueを返す
+        return countTheNumberOfNCards(2) == 1;  //手札5枚のうち2枚1組が1つあった場合trueを返す
     }
 
     //3カードかどうか判断するメソッド
     public boolean isThreeOfAKind() {
-        return countTheNumberOfSameRankCard() >= 3;  //手札5枚のうち3枚以上が同じランクだった場合trueを返す
+        return countTheNumberOfNCards(3) == 1;  //手札5枚のうち3枚1組が1つあった場合trueを返す
     }
 
     //4カードかどうか判断するメソッド
     public boolean isFourOfAKind() {
-        return countTheNumberOfSameRankCard() == 4;  //手札5枚のうち4枚が同じランクだった場合trueを返す
+        return countTheNumberOfNCards(4) == 1;  //手札5枚のうち4枚1組が1つあった場合trueを返す
     }
 
-    //手札に任意のランクが何枚あるか数えるメソッド(最大値)
-    private int countTheNumberOfSameRankCard() {
-        int sameRankCount = 0;  //手札に任意のランクが何枚あるか数える
-        int sameRankCountOfMax = 0;
-        for (int i = 0; i < hand.size(); i++) {
-            for (int j = i + 1; j < hand.size(); j++) { //一個ずらしたものから比較を始める
-                if (hand.get(i).getRank() == hand.get(j).getRank()) {
-                    sameRankCount++;
-                    if (sameRankCount > sameRankCountOfMax) {   //値の更新(最大枚数をとる)
-                        sameRankCountOfMax = sameRankCount;
-                    }
+    //2ペアかどうか判断するメソッド
+    public boolean isTwoPair() {
+        return countTheNumberOfNCards(2) == 2;  //手札5枚のうち2枚1組が2つあった場合trueを返す
+
+    }
+
+    //手札の中にn枚組がいくつあるか計算する
+    private int countTheNumberOfNCards(int numberOfTheSameRank) {
+
+        List<Integer> ranks = asRanks();    //ランクのみの手札
+        Set<Integer> keys = new HashSet<>(ranks);  //手札の中で重複しているランクをまとめたリスト
+
+        Map<Integer, Integer> nMap = new HashMap<>();   //<Integer:ランク,Integer:枚数(count)>
+
+        int count;  //重複しているランクを数える用
+        for (int key : keys) {
+            count = 0;
+            for (int rank : ranks) {
+                if (key == rank) {  //手札に同じランクが見つかったらカウントを増やす
+                    count++;
                 }
             }
-            sameRankCount = 0;  //jが1週周りきったらカウントリセット
+            nMap.put(key, count);   //mapに追加する際に比較元の1枚を加える
+
         }
-        if (sameRankCountOfMax > 0) {   //手札に同じランクが1枚以上あった場合、比較元の1枚を加える
-            sameRankCountOfMax = sameRankCountOfMax + 1;
+
+        //手札の重複ランクのセット数を数える
+        int numberOfSameRankSet = 0;
+        for (int value : nMap.values()) {
+            if (value == numberOfTheSameRank) {
+                numberOfSameRankSet++;
+            }
         }
-        return sameRankCountOfMax;
+        return numberOfSameRankSet;
     }
+
+    //手札を変換する(ランクのみ)
+    private List<Integer> asRanks() {
+        List<Integer> rh = new ArrayList<>();
+
+        for (Card card : hand) {
+            rh.add(card.getRank()); //ランクだけを追加していく
+        }
+        return rh;
+    }
+
 }
