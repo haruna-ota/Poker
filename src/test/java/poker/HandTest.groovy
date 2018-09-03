@@ -92,4 +92,19 @@ class HandTest extends Specification {
         [$(H, 4), $(H, 5), $(S, 3), $(H, 2), $(D, 3)] | false  //3の1ペア
         [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)] | false  //0ペア
     }
+
+    //役判定のテスト(FULL_HOUSE)
+    def fullHouseTest() {
+        expect:
+        new Hand(cards).isFullHouse() == exp
+
+        where:
+        cards                                         | exp
+        [$(H, 2), $(D, 2), $(S, 2), $(C, 3), $(H, 3)] | true   //2が3枚と3が2枚(3カードかつ1ペア)
+        [$(D, 4), $(S, 4), $(C, 4), $(H, 4), $(D, 7)] | false  //4が4枚(4カード)
+        [$(D, 4), $(H, 5), $(C, 4), $(H, 4), $(D, 7)] | false  //4が3枚(3カード)
+        [$(H, 5), $(H, 7), $(C, 3), $(H, 6), $(S, 5)] | false  //5が2枚(1ペア)
+        [$(H, 4), $(S, 4), $(H, 5), $(S, 5), $(S, 6)] | false  //4が2枚、5が2枚(2ペア)
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)] | false  //0ペア
+    }
 }
