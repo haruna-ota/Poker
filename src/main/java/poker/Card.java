@@ -2,18 +2,33 @@ package poker;
 
 public class Card {
     private CardSuitEnum suit;    //カードのマーク
-    private int rank;             //カードのランク
+    private int rank;             //カードのランク(エースの場合:1)
+    private String rankName;         //カードのランクの名前(エースの場合:A)
+    private int rankPoints;        //カードのランクに対するポイント(エースの場合:14)
 
     //コンストラクタ
     public Card(CardSuitEnum suit, int rank) {
         this.suit = suit;
         this.rank = rank;
+        this.rankName = this.toString();
+        this.rankPoints = this.givePointsToTheCard();
     }
 
     //toString  カード表示用
     @Override
     public String toString() {
-        return suit.toString() + "-" + rank;
+        if (rank == 1) {
+            rankName = "A";
+        } else if (rank == 11) {
+            rankName = "J";
+        } else if (rank == 12) {
+            rankName = "Q";
+        } else if (rank == 13) {
+            rankName = "K";
+        } else {
+            rankName = String.valueOf(rank);
+        }
+        return suit.toString() + "-" + rankName;
     }
 
     //getter
@@ -22,18 +37,17 @@ public class Card {
     }
 
     //getter
-    public int getRank() {
-        return givePointsToTheCard();
+    public int getRankPoints() {
+        return rankPoints;
     }
 
     //カードにポイントをつける
     private int givePointsToTheCard() {
-        int rankPoint;
         if (rank == 1) {    //ランクが1のカード(A)は14(一番強いカード)として考える
-            rankPoint = 14;
+            rankPoints = 14;
         } else {
-            rankPoint = rank;
+            rankPoints = rank;
         }
-        return rankPoint;
+        return rankPoints;
     }
 }

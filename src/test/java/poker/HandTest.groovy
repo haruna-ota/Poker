@@ -25,7 +25,7 @@ class HandTest extends Specification {
 
         where:
         cards                                            | exp
-        [$(H, 1), $(H, 2), $(D, 11), $(S, 12), $(C, 13)] | "[H-1, H-2, D-11, S-12, C-13]"
+        [$(H, 1), $(H, 2), $(D, 11), $(S, 12), $(C, 13)] | "[H-A, H-2, D-J, S-Q, C-K]"
     }
 
     //役判定のテスト(FLUSH)
