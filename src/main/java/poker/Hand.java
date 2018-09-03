@@ -59,15 +59,29 @@ public class Hand {
         return countTheNumberOfNCards(3) == 1 && countTheNumberOfNCards(2) == 1;    //手札が3カードかつ1ペアを満たしている場合trueを返す
     }
 
+    //ストレートかどうか判断するメソッド
     public boolean isStraight() {
         List<Integer> ranks = asRanks();    //ランクのみの手札
         Collections.sort(ranks);    //手札を昇順に並べ替える
 
         int trueCount = 0;  //隣り合うランクのカードかの判断用
 
-        for (int i = 0; i < ranks.size() - 1; i++) {
-            if (ranks.get(i).equals(ranks.get(i + 1) - 1)) {    //現在見ているカードが次カードのランクから1引いたものであればok(隣り合うランク)
-                trueCount++;
+        if (ranks.get(0) == 1) {    //ソートした手札の先頭が1の場合
+            if (ranks.get(1) == 10) {   //ソートした手札の2番目が10の場合
+                for (int i = 1; i < ranks.size() - 1; i++) {
+                    if (ranks.get(i).equals(ranks.get(i + 1) - 1)) {
+                        trueCount++;
+                    }
+                }
+                return trueCount == 3;
+            } else {    //ソートした手札の先頭が1の場合、2番目が10でなければストレートにならない
+                return false;
+            }
+        } else {    //ソートした手札の先頭が1でない場合
+            for (int i = 0; i < ranks.size() - 1; i++) {
+                if (ranks.get(i).equals(ranks.get(i + 1) - 1)) {    //現在見ているカードが次カードのランクから1引いたものであればok(隣り合うランク)
+                    trueCount++;
+                }
             }
         }
         return trueCount == 4;
