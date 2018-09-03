@@ -61,27 +61,14 @@ public class Hand {
 
     //ストレートかどうか判断するメソッド
     public boolean isStraight() {
-        List<Integer> ranks = asRanks();    //ランクのみの手札
-        Collections.sort(ranks);    //手札を昇順に並べ替える
+        List<Integer> ranksPoint = asRanksPoint();    //ランクのみの手札
+        Collections.sort(ranksPoint);    //手札を昇順に並べ替える
 
         int trueCount = 0;  //隣り合うランクのカードかの判断用
 
-        if (ranks.get(0) == 1) {    //ソートした手札の先頭が1の場合
-            if (ranks.get(1) == 10) {   //ソートした手札の2番目が10の場合
-                for (int i = 1; i < ranks.size() - 1; i++) {
-                    if (ranks.get(i).equals(ranks.get(i + 1) - 1)) {
-                        trueCount++;
-                    }
-                }
-                return trueCount == 3;
-            } else {    //ソートした手札の先頭が1の場合、2番目が10でなければストレートにならない
-                return false;
-            }
-        } else {    //ソートした手札の先頭が1でない場合
-            for (int i = 0; i < ranks.size() - 1; i++) {
-                if (ranks.get(i).equals(ranks.get(i + 1) - 1)) {    //現在見ているカードが次カードのランクから1引いたものであればok(隣り合うランク)
-                    trueCount++;
-                }
+        for (int i = 0; i < ranksPoint.size() - 1; i++) {
+            if (ranksPoint.get(i).equals(ranksPoint.get(i + 1) - 1)) {    //現在見ているカードが次カードのランクから1引いたものであればok(隣り合うランク)
+                trueCount++;
             }
         }
         return trueCount == 4;
@@ -90,15 +77,15 @@ public class Hand {
     //手札の中にn枚組がいくつあるか計算する
     private int countTheNumberOfNCards(int numberOfTheSameRank) {
 
-        List<Integer> ranks = asRanks();    //ランクのみの手札
-        Set<Integer> keys = new HashSet<>(ranks);  //手札の中で重複しているランクをまとめたリスト
+        List<Integer> ranksPoint = asRanksPoint();    //ランクのみの手札
+        Set<Integer> keys = new HashSet<>(ranksPoint);  //手札の中で重複しているランクをまとめたリスト
 
         Map<Integer, Integer> nMap = new HashMap<>();   //<Integer:ランク,Integer:枚数(count)>
 
         int count;  //重複しているランクを数える用
         for (int key : keys) {
             count = 0;
-            for (int rank : ranks) {
+            for (int rank : ranksPoint) {
                 if (key == rank) {  //手札に同じランクが見つかったらカウントを増やす
                     count++;
                 }
@@ -118,7 +105,7 @@ public class Hand {
     }
 
     //手札を変換する(ランクのみ)
-    private List<Integer> asRanks() {
+    private List<Integer> asRanksPoint() {
         List<Integer> rh = new ArrayList<>();
 
         for (Card card : hand) {
