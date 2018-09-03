@@ -51,7 +51,11 @@ public class Hand {
     //2ペアかどうか判断するメソッド
     public boolean isTwoPair() {
         return countTheNumberOfNCards(2) == 2;  //手札5枚のうち2枚1組が2つあった場合trueを返す
+    }
 
+    //フルハウスかどうか判断するメソッド
+    public boolean isFullHouse() {
+        return countTheNumberOfNCards(3) == 1 && countTheNumberOfNCards(2) == 1;    //手札が3カードかつ1ペアを満たしている場合trueを返す
     }
 
     //手札の中にn枚組がいくつあるか計算する
