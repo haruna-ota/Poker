@@ -114,10 +114,10 @@ class HandTest extends Specification {
         new Hand(cards).isStraight() == exp
 
         where:
-        cards                                              | exp
-        [$(H, 2), $(H, 6), $(H, 4), $(H, 3), $(H, 5)]      | true
-        [$(H, 10), $(H, 11), $(H, 12), $(H, 13), $(H, 14)] | true
-        [$(H, 11), $(H, 12), $(H, 13), $(H, 14), $(H, 2)]  | false
-        [$(H, 3), $(H, 2), $(H, 5), $(H, 7), $(H, 6)]      | false
+        cards                                             | exp
+        [$(H, 2), $(H, 6), $(H, 4), $(H, 3), $(H, 5)]     | true
+        [$(H, 10), $(H, 11), $(H, 12), $(H, 13), $(H, 1)] | true
+        [$(H, 11), $(H, 12), $(H, 13), $(H, 1), $(H, 2)]  | false
+        [$(H, 3), $(H, 2), $(H, 5), $(H, 7), $(H, 6)]     | false
     }
 }
