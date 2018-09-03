@@ -1,6 +1,7 @@
 package poker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -56,6 +57,20 @@ public class Hand {
     //フルハウスかどうか判断するメソッド
     public boolean isFullHouse() {
         return countTheNumberOfNCards(3) == 1 && countTheNumberOfNCards(2) == 1;    //手札が3カードかつ1ペアを満たしている場合trueを返す
+    }
+
+    public boolean isStraight() {
+        List<Integer> ranks = asRanks();    //ランクのみの手札
+        Collections.sort(ranks);    //手札を昇順に並べ替える
+
+        int trueCount = 0;  //隣り合うランクのカードかの判断用
+
+        for (int i = 0; i < ranks.size() - 1; i++) {
+            if (ranks.get(i).equals(ranks.get(i + 1) - 1)) {    //現在見ているカードが次カードのランクから1引いたものであればok(隣り合うランク)
+                trueCount++;
+            }
+        }
+        return trueCount == 4;
     }
 
     //手札の中にn枚組がいくつあるか計算する
