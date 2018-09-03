@@ -22,7 +22,18 @@ public class Card {
     }
 
     //getter
-    public int getRank(){
-        return rank;
+    public int getRank() {
+        return givePointsToTheCard();
+    }
+
+    //カードにポイントをつける
+    private int givePointsToTheCard() {
+        int rankPoint;
+        if (rank == 1) {    //ランクが1のカード(A)は14(一番強いカード)として考える
+            rankPoint = 14;
+        } else {
+            rankPoint = rank;
+        }
+        return rankPoint;
     }
 }
