@@ -104,12 +104,12 @@ public class Hand {
         return numberOfSameRankSet;
     }
 
-    //手札を変換する(ランクのみ)
+    //手札を変換する(ランクポイントのみ)
     private List<Integer> asRankPoints() {
         List<Integer> rh = new ArrayList<>();
 
         for (Card card : hand) {
-            rh.add(card.getRankPoints()); //ランクだけを追加していく
+            rh.add(card.getRankPoint()); //ランクポイントだけを追加していく
         }
         return rh;
     }
