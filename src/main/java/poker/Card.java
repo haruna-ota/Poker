@@ -1,33 +1,40 @@
 package poker;
 
 public class Card {
-    private CardSuitEnum suit;    //カードのマーク
-    private int rank;             //カードのランク(エースの場合:1)
-    private String rankName;         //カードのランクの名前(エースの場合:A)
-    private int rankPoints;        //カードのランクに対するポイント(エースの場合:14)
+    private final CardSuitEnum suit;    //カードのマーク
+    private final int rank;             //カードのランク(エースの場合:1)
+    private final String rankName;      //カードのランクの名前(表示用)(エースの場合:A)
+    private final int rankPoint;        //カードのランクに対するポイント(エースの場合:14)
 
     //コンストラクタ
     public Card(CardSuitEnum suit, int rank) {
         this.suit = suit;
         this.rank = rank;
-        this.rankName = this.toString();
-        this.rankPoints = this.givePointsToTheCard();
+
+        //カードに表示用のランクの名前をつける
+        if (rank == 1) {
+            this.rankName = "A";
+        } else if (rank == 11) {
+            this.rankName = "J";
+        } else if (rank == 12) {
+            this.rankName = "Q";
+        } else if (rank == 13) {
+            this.rankName = "K";
+        } else {
+            this.rankName = String.valueOf(rank);
+        }
+
+        //カードにランクに対するポイントをつける
+        if (rank == 1) {    //ランクが1のカード(A)は14(一番強いカード)として考える
+            this.rankPoint = 14;
+        } else {
+            this.rankPoint = rank;
+        }
     }
 
     //toString  カード表示用
     @Override
     public String toString() {
-        if (rank == 1) {
-            rankName = "A";
-        } else if (rank == 11) {
-            rankName = "J";
-        } else if (rank == 12) {
-            rankName = "Q";
-        } else if (rank == 13) {
-            rankName = "K";
-        } else {
-            rankName = String.valueOf(rank);
-        }
         return suit.toString() + "-" + rankName;
     }
 
@@ -37,17 +44,7 @@ public class Card {
     }
 
     //getter
-    public int getRankPoints() {
-        return rankPoints;
-    }
-
-    //カードにポイントをつける
-    private int givePointsToTheCard() {
-        if (rank == 1) {    //ランクが1のカード(A)は14(一番強いカード)として考える
-            rankPoints = 14;
-        } else {
-            rankPoints = rank;
-        }
-        return rankPoints;
+    public int getRankPoint() {
+        return rankPoint;
     }
 }
