@@ -25,7 +25,7 @@ class HandTest extends Specification {
 
         where:
         cards                                            | exp
-        [$(H, 1), $(H, 2), $(D, 11), $(S, 12), $(C, 13)] | "[H-1, H-2, D-11, S-12, C-13]"
+        [$(H, 1), $(H, 2), $(D, 11), $(S, 12), $(C, 13)] | "[H-A, H-2, D-J, S-Q, C-K]"
     }
 
     //役判定のテスト(FLUSH)
@@ -106,5 +106,18 @@ class HandTest extends Specification {
         [$(H, 5), $(H, 7), $(C, 3), $(H, 6), $(S, 5)] | false  //5が2枚(1ペア)
         [$(H, 4), $(S, 4), $(H, 5), $(S, 5), $(S, 6)] | false  //4が2枚、5が2枚(2ペア)
         [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)] | false  //0ペア
+    }
+
+    //役判定のテスト(STRAIGHT)
+    def straightTest() {
+        expect:
+        new Hand(cards).isStraight() == exp
+
+        where:
+        cards                                             | exp
+        [$(H, 2), $(H, 6), $(H, 4), $(H, 3), $(H, 5)]     | true
+        [$(H, 10), $(H, 11), $(H, 12), $(H, 13), $(H, 1)] | true
+        [$(H, 11), $(H, 12), $(H, 13), $(H, 1), $(H, 2)]  | false
+        [$(H, 3), $(H, 2), $(H, 5), $(H, 7), $(H, 6)]     | false
     }
 }
