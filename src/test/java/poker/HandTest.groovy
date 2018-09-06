@@ -7,8 +7,8 @@ import static poker.CardSuitEnum.*
 class HandTest extends Specification {
 
     //カードを生成する
-    private def $(CardSuitEnum suit, int rank) {
-        return new Card(suit, rank)
+    private def $(CardSuitEnum suit, int displayPoint) {
+        return new Card(suit, new Rank(displayPoint))
 
     }
 
