@@ -13,7 +13,7 @@ public class Card {
     //toString  カード表示用
     @Override
     public String toString() {
-        return suit.toString() + "-" + rank.getName();
+        return suit.toString() + "-" + rank.toString();
     }
 
     //getter

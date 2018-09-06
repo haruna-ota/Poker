@@ -30,8 +30,9 @@ public class Rank {
         }
     }
 
-    //getter
-    public String getName() {
+    //toString  ランク表示用
+    @Override
+    public String toString() {
         return name;
     }
 
