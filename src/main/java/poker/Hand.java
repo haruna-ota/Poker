@@ -109,7 +109,7 @@ public class Hand {
         List<Integer> rh = new ArrayList<>();
 
         for (Card card : hand) {
-            rh.add(card.getRankPoint()); //ランクポイントだけを追加していく
+            rh.add(card.getRank().getCalculationPoint()); //ランクポイントだけを追加していく
         }
         return rh;
     }
