@@ -114,4 +114,51 @@ public class Hand {
         return rh;
     }
 
+    //手札をソートする(昇順)
+    public List<Card> sortHand() {
+        List<Card> rankUnSortedHand = sortSuit(); //ソート前の手札
+        int length = rankUnSortedHand.size();
+        List<Card> sortedHand = new ArrayList<>();  //ソート済みの手札
+        Card min;   //暫定最小ランク値のカード
+
+        for (int i = 0; i < length; i++) {
+            min = rankUnSortedHand.get(0);
+            for (int j = 0; j < rankUnSortedHand.size(); j++) {
+                if (rankUnSortedHand.get(j).getRank().getDisplayPoint() < min.getRank().getDisplayPoint()) {
+                    min = rankUnSortedHand.get(j);
+                }
+            }
+            sortedHand.add(min);
+            rankUnSortedHand.remove(min);
+        }
+        return sortedHand;
+    }
+
+    //マークでソートする(強弱)
+    private List<Card> sortSuit() {
+        List<Card> suitSortedHand = new ArrayList<>();
+
+        //スペードを探す
+        for (int j = 0; j < hand.size(); j++) {
+            if (hand.get(j).getSuit() == CardSuitEnum.S) {
+                suitSortedHand.add(hand.get(j));
+            }
+        }
+        //ハートを探す
+        for (int j = 0; j < hand.size(); j++)
+            if (hand.get(j).getSuit() == CardSuitEnum.H) {
+                suitSortedHand.add(hand.get(j));
+            }
+        //クラブを探す
+        for (int j = 0; j < hand.size(); j++)
+            if (hand.get(j).getSuit() == CardSuitEnum.C) {
+                suitSortedHand.add(hand.get(j));
+            }
+        //ダイヤを探す
+        for (int j = 0; j < hand.size(); j++)
+            if (hand.get(j).getSuit() == CardSuitEnum.D) {
+                suitSortedHand.add(hand.get(j));
+            }
+        return suitSortedHand;
+    }
 }

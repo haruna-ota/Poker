@@ -37,6 +37,11 @@ public class Rank {
     }
 
     //getter
+    public int getDisplayPoint() {
+        return displayPoint;
+    }
+
+    //getter
     public int getCalculationPoint() {
         return calculationPoint;
     }
