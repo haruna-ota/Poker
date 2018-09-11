@@ -17,15 +17,15 @@ class HandTest extends Specification {
         expect:
         //List<Card> cards = Arrays.asList($(CardSuitEnum.H, 2), $(CardSuitEnum.H, 3))
         //def cards = [$(H, 2), $(H, 3)]
-        //Hand hand = new Hand(cards)
-        //def hand = new Hand(cards)
-        //hand.toString() == "[H-2, H-3]"
-        //hand.toString() == exp
+        //Hand cards = new Hand(cards)
+        //def cards = new Hand(cards)
+        //cards.toString() == "[H-2, H-3]"
+        //cards.toString() == exp
         new Hand(cards).toString() == exp
 
         where:
         cards                                            | exp
-        [$(H, 1), $(H, 2), $(D, 11), $(S, 12), $(C, 13)] | "[H-A, H-2, D-J, S-Q, C-K]"
+        [$(H, 2), $(D, 11), $(S, 12), $(C, 13), $(H, 1)] | "[H-2, D-J, S-Q, C-K, H-A]"
     }
 
     //役判定のテスト(FLUSH)
@@ -124,7 +124,7 @@ class HandTest extends Specification {
     //手札のソート(手札のカードのランクの順番がバラバラでもきちんと役を満たすことを確認する)
     def sortTest() {
         expect:
-        new Hand(cards).sortHand() == exp
+        new Hand(cards) == new Hand(exp)
 
         where:
         cards                                             | exp
