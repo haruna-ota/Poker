@@ -6,27 +6,28 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class Hand {
-    private List<Card> hand;    //手札
+    private List<Card> cards;    //手札
 
     //コンストラクタ
-    public Hand(List<Card> hand) {
-        this.hand = hand;
+    public Hand(List<Card> cards) {
+        this.cards = sortHand(cards);
     }
 
     //toString　手札表示用
     @Override
     public String toString() {
-        return hand.toString();
+        return cards.toString();
     }
 
     //フラッシュかどうか判定するメソッド
     public boolean isFlush() {
         int sameSuitCount = 0;  //手札に同じマークが何枚あるか数える
-        for (Card Hand : hand) {
-            if (hand.get(0).getSuit() == Hand.getSuit()) {   //2枚目以降が、1枚目のマークと同じかどうか確認
+        for (Card card : cards) {
+            if (cards.get(0).getSuit() == card.getSuit()) {   //2枚目以降が、1枚目のマークと同じかどうか確認
                 sameSuitCount++;    //1枚目と同じ場合はカウントを増やす
             }
         }
@@ -62,7 +63,6 @@ public class Hand {
     //ストレートかどうか判断するメソッド
     public boolean isStraight() {
         List<Integer> rankPoints = asRankPoints();    //ランクのみの手札
-        Collections.sort(rankPoints);    //手札を昇順に並べ替える
 
         int trueCount = 0;  //隣り合うランクのカードかの判断用
 
@@ -108,10 +108,42 @@ public class Hand {
     private List<Integer> asRankPoints() {
         List<Integer> rh = new ArrayList<>();
 
-        for (Card card : hand) {
+        for (Card card : cards) {
             rh.add(card.getRank().getCalculationPoint()); //ランクポイントだけを追加していく
         }
         return rh;
     }
 
+    //手札をソートする(昇順)
+    private List<Card> sortHand(List<Card> cards) {
+        int length = cards.size();
+        List<Card> sortedHand = new ArrayList<>();  //ソート済みの手札
+        Card min;   //暫定最小ランク値のカード
+
+        for (int i = 0; i < length; i++) {
+            min = cards.get(0);
+            for (int j = 0; j < cards.size(); j++) {
+                if (cards.get(j).compare(min)) {     //min(暫定の最小カード)の方が大きければtrueを返す
+                    min = cards.get(j);  //暫定を入れ替える
+                }
+            }
+            sortedHand.add(min);
+            cards.remove(min);
+        }
+        return sortedHand;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hand hand = (Hand) o;
+        return Objects.equals(cards, hand.cards);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(cards);
+    }
 }
