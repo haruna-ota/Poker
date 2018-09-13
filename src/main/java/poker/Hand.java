@@ -74,6 +74,11 @@ public class Hand {
         return trueCount == 4;
     }
 
+    //ストレートフラッシュかどうか判断するメソッド
+    public boolean isStraightFlush() {
+        return isStraight() && isFlush();   //ストレートとフラッシュを両方満たす場合trueを返す
+    }
+
     //手札の中にn枚組がいくつあるか計算する
     private int countTheNumberOfNCards(int numberOfTheSameRank) {
 
