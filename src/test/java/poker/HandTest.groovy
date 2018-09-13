@@ -121,6 +121,19 @@ class HandTest extends Specification {
         [$(H, 2), $(H, 3), $(H, 5), $(H, 6), $(H, 7)]     | false
     }
 
+    //役判定のテスト(STRAIGHT_FLUSH)
+    def straightFlushTest() {
+        expect:
+        new Hand(cards).isStraightFlush() == exp
+
+        where:
+        cards                                             | exp
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]     | true    //ストレートもフラッシュも満たしている
+        [$(S, 1), $(S, 2), $(S, 3), $(S, 4), $(S, 5)]     | false   //フラッシュのみ満たしている
+        [$(D, 1), $(H, 10), $(H, 11), $(C, 12), $(D, 13)] | false   //ストレートのみ満たしている
+        [$(H, 4), $(D, 4), $(D, 5), $(D, 6), $(H, 7)]     | false   //どちらも満たしていない
+    }
+
     //手札のソート(手札のカードのランクの順番がバラバラでもきちんと役を満たすことを確認する)
     def sortTest() {
         expect:
