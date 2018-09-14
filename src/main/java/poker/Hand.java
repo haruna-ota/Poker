@@ -79,6 +79,11 @@ public class Hand {
         return isStraight() && isFlush();   //ストレートとフラッシュを両方満たす場合trueを返す
     }
 
+    //ロイヤルストレートフラッシュかどうか判断するメソッド
+    public boolean isRoyalStraightFlush() {
+        return isStraightFlush() && isTenStart();   //特殊なストレートフラッシュを満たす場合trueを返す(ストレートは10-J-Q-K-Aのみ)
+    }
+
     //手札の中にn枚組がいくつあるか計算する
     private int countTheNumberOfNCards(int numberOfTheSameRank) {
 
@@ -136,6 +141,11 @@ public class Hand {
             cards.remove(min);
         }
         return sortedHand;
+    }
+
+    //ソートした手札の先頭をチェックするメソッド
+    private boolean isTenStart() {
+        return asRankPoints().get(0) == 10; //先頭が10から始まっているか確かめる
     }
 
     @Override
