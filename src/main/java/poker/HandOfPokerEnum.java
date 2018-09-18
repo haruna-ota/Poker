@@ -20,5 +20,8 @@ public enum HandOfPokerEnum {
         this.name = name;
     }
 
-
+    //getter
+    public String getName() {
+        return name;
+    }
 }
