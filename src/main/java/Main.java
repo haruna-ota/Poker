@@ -21,6 +21,7 @@ public class Main {
         ));
 
         Hand hand1 = new Hand(cards1);
+        //Stringと+してプリントしhているので、自動的にtoStringが使われる(ex.) hand1.askTheNameOfHand.toStringと一緒の意味)
         System.out.println(hand1 + "\n" + "この手札の役名は:" + hand1.askTheNameOfHand() + "\n");
 
 

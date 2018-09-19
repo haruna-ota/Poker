@@ -20,8 +20,9 @@ public enum HandOfPokerEnum {
         this.name = name;
     }
 
-    //getter
-    public String getName() {
+    //toString（手札の役名表示用）
+    @Override
+    public String toString() {
         return name;
     }
 }

@@ -86,27 +86,27 @@ public class Hand {
     }
 
     //手札の役名を聞くメソッド(ハイカードの判定)
-    public String askTheNameOfHand() {
+    public HandOfPokerEnum askTheNameOfHand() {
         if (isRoyalStraightFlush()) {
-            return ROYAL_STRAIGHTFLUSH.getName();
+            return ROYAL_STRAIGHTFLUSH;
         } else if (isStraightFlush()) {
-            return STRAIGHT_FLUSH.getName();
+            return STRAIGHT_FLUSH;
         } else if (isFourOfAKind()) {
-            return FOUR_OF_A_KIND.getName();
+            return FOUR_OF_A_KIND;
         } else if (isFullHouse()) {
-            return FULL_HOUSE.getName();
+            return FULL_HOUSE;
         } else if (isFlush()) {
-            return FLUSH.getName();
+            return FLUSH;
         } else if (isStraight()) {
-            return STRAIGHT.getName();
+            return STRAIGHT;
         } else if (isThreeOfAKind()) {
-            return THREE_OF_A_KIND.getName();
+            return THREE_OF_A_KIND;
         } else if (isTwoPair()) {
-            return TWO_PAIR.getName();
+            return TWO_PAIR;
         } else if (isOnePair()) {
-            return ONE_PAIR.getName();
+            return ONE_PAIR;
         } else {
-            return HIGH_CARDS.getName();
+            return HIGH_CARDS;
         }
     }
 
