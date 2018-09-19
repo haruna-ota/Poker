@@ -1,13 +1,14 @@
 package poker;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import static poker.HandOfPokerEnum.*;
 
 public class Hand {
     private List<Card> cards;    //手札
@@ -82,6 +83,31 @@ public class Hand {
     //ロイヤルストレートフラッシュかどうか判断するメソッド
     public boolean isRoyalStraightFlush() {
         return isStraightFlush() && isTenStart();   //特殊なストレートフラッシュを満たす場合trueを返す(ストレートは10-J-Q-K-Aのみ)
+    }
+
+    //手札の役名を聞くメソッド(ハイカードの判定)
+    public HandOfPokerEnum askTheNameOfHand() {
+        if (isRoyalStraightFlush()) {
+            return ROYAL_STRAIGHTFLUSH;
+        } else if (isStraightFlush()) {
+            return STRAIGHT_FLUSH;
+        } else if (isFourOfAKind()) {
+            return FOUR_OF_A_KIND;
+        } else if (isFullHouse()) {
+            return FULL_HOUSE;
+        } else if (isFlush()) {
+            return FLUSH;
+        } else if (isStraight()) {
+            return STRAIGHT;
+        } else if (isThreeOfAKind()) {
+            return THREE_OF_A_KIND;
+        } else if (isTwoPair()) {
+            return TWO_PAIR;
+        } else if (isOnePair()) {
+            return ONE_PAIR;
+        } else {
+            return HIGH_CARDS;
+        }
     }
 
     //手札の中にn枚組がいくつあるか計算する

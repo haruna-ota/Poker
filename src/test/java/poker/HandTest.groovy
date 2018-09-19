@@ -3,6 +3,16 @@ package poker
 import spock.lang.Specification
 
 import static poker.CardSuitEnum.*
+import static poker.HandOfPokerEnum.FLUSH
+import static poker.HandOfPokerEnum.FOUR_OF_A_KIND
+import static poker.HandOfPokerEnum.FULL_HOUSE
+import static poker.HandOfPokerEnum.HIGH_CARDS
+import static poker.HandOfPokerEnum.ONE_PAIR
+import static poker.HandOfPokerEnum.ROYAL_STRAIGHTFLUSH
+import static poker.HandOfPokerEnum.STRAIGHT
+import static poker.HandOfPokerEnum.STRAIGHT_FLUSH
+import static poker.HandOfPokerEnum.THREE_OF_A_KIND
+import static poker.HandOfPokerEnum.TWO_PAIR
 
 class HandTest extends Specification {
 
@@ -142,10 +152,29 @@ class HandTest extends Specification {
         where:
         cards                                              | exp
         [$(S, 1), $(S, 10), $(S, 11), $(S, 12), $(S, 13)]  | true
-        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]      | false    //ストレートフラッシュのみ満たしている
+        [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]      | false   //ストレートフラッシュのみ満たしている
         [$(D, 1), $(H, 10), $(H, 11), $(C, 12), $(D, 13)]  | false   //ストレートのみ満たしている
         [$(D, 1), $(D, 2), $(D, 3), $(D, 4), $(D, 5)]      | false   //フラッシュのみ満たしている
         [$(H, 10), $(D, 11), $(H, 12), $(D, 13), $(H, 13)] | false   //どれもも満たしていない
+    }
+
+    //手札の役名を聞くテスト（役判定のテスト(HIGH_CARDS)）
+    def theNameOfHand() {
+        expect:
+        new Hand(cards).askTheNameOfHand() == exp
+
+        where:
+        cards                                             | exp
+        [$(S, 1), $(S, 10), $(S, 11), $(S, 12), $(S, 13)] | ROYAL_STRAIGHTFLUSH
+        [$(H, 9), $(H, 10), $(H, 11), $(H, 12), $(H, 13)] | STRAIGHT_FLUSH
+        [$(H, 5), $(S, 5), $(C, 5), $(D, 5), $(D, 13)]    | FOUR_OF_A_KIND
+        [$(S, 4), $(D, 4), $(H, 4), $(H, 11), $(D, 11)]   | FULL_HOUSE
+        [$(H, 1), $(H, 2), $(H, 3), $(H, 4), $(H, 5)]     | FLUSH
+        [$(H, 9), $(D, 10), $(S, 11), $(H, 12), $(C, 13)] | STRAIGHT
+        [$(C, 1), $(H, 1), $(D, 1), $(S, 10), $(H, 12)]   | THREE_OF_A_KIND
+        [$(D, 3), $(H, 3), $(H, 5), $(S, 11), $(C, 11)]   | TWO_PAIR
+        [$(H, 1), $(S, 8), $(C, 8), $(D, 12), $(H, 13)]   | ONE_PAIR
+        [$(H, 1), $(S, 2), $(D, 3), $(C, 4), $(D, 5)]     | HIGH_CARDS
     }
 
     //手札のソート(手札のカードのランクの順番がバラバラでもきちんと役を満たすことを確認する)
@@ -158,6 +187,6 @@ class HandTest extends Specification {
         [$(H, 2), $(H, 6), $(H, 4), $(H, 3), $(H, 5)]     | [$(H, 2), $(H, 3), $(H, 4), $(H, 5), $(H, 6)]     //全てランクが同じ場合
         [$(H, 2), $(D, 2), $(S, 5), $(C, 2), $(S, 2)]     | [$(D, 2), $(C, 2), $(H, 2), $(S, 2), $(S, 5)]     //マーク違い,ランク重複ありの場合
         [$(H, 5), $(D, 3), $(C, 10), $(H, 1), $(S, 12)]   | [$(D, 3), $(H, 5), $(C, 10), $(S, 12), $(H, 1)]   //全てランク違い、マークも違う場合
-        [$(S, 13), $(S, 11), $(H, 10), $(S, 10), $(S, 1)] | [$(H, 10), $(S, 10), $(S, 11), $(S, 13), $(S, 1)]   //全てランク違い、マークも違う場合(10,J,Aの並び)
+        [$(S, 13), $(S, 11), $(H, 10), $(S, 10), $(S, 1)] | [$(H, 10), $(S, 10), $(S, 11), $(S, 13), $(S, 1)] //全てランク違い、マークも違う場合(10,J,Aの並び)
     }
 }
