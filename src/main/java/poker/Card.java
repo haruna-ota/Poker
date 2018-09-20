@@ -43,7 +43,7 @@ public class Card {
         return Objects.hash(suit, rank);
     }
 
-    //カード同士を比べてどちらが大きいか判断するメソッド（スートの強弱:S>H>C>D）
+    //カード同士を比べてどちらが大きいか判断するメソッド（スートの強弱:S>H>D>C）
     //比較元のカード <　比較されるカードの場合trueを返す
     public boolean compare(Card card) {
         if (this.getRank().getCalculationPoint() == card.getRank().getCalculationPoint()) {
@@ -52,7 +52,7 @@ public class Card {
                 return false;
             } else if (this.getSuit() == CardSuitEnum.H) {  //比較元のカードのマークがハートだった場合
                 return card.getSuit() == CardSuitEnum.S;
-            } else if (this.getSuit() == CardSuitEnum.C) {  //比較元のカードのマークがクラブだった場合
+            } else if (this.getSuit() == CardSuitEnum.D) {  //比較元のカードのマークがダイヤだった場合
                 return card.getSuit() == CardSuitEnum.S || card.getSuit() == CardSuitEnum.H;
             } else {    //比較元のカードのマークがダイヤだった場合
                 return true;
