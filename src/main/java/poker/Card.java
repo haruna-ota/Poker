@@ -2,7 +2,9 @@ package poker;
 
 import java.util.Objects;
 
-public class Card {
+import static poker.CardSuitEnum.*;
+
+public class Card implements Comparable<Card> {
     private final CardSuitEnum suit;    //カードのマーク
     private final Rank rank;           //ランク（ランクのもつポイント(表示用)、ランク表示用の名前、ランクの持つポイント(計算用)）
 
@@ -45,20 +47,33 @@ public class Card {
 
     //カード同士を比べてどちらが大きいか判断するメソッド（スートの強弱:S>H>D>C）
     //比較元のカード <　比較されるカードの場合trueを返す
-    public boolean compare(Card card) {
-        if (this.getRank().getCalculationPoint() == card.getRank().getCalculationPoint()) {
-            //ランク同士が同じであればスートを比べる
-            if (this.getSuit() == CardSuitEnum.S) {   //比較元のカードのマークがスペードだった場合
-                return false;
-            } else if (this.getSuit() == CardSuitEnum.H) {  //比較元のカードのマークがハートだった場合
-                return card.getSuit() == CardSuitEnum.S;
-            } else if (this.getSuit() == CardSuitEnum.D) {  //比較元のカードのマークがダイヤだった場合
-                return card.getSuit() == CardSuitEnum.S || card.getSuit() == CardSuitEnum.H;
-            } else {    //比較元のカードのマークがダイヤだった場合
-                return true;
+    @Override
+    public int compareTo(Card other) {
+        if (this.getRank().getCalculationPoint() == other.getRank().getCalculationPoint()) {
+            //ランク同士が同じ場合のみスートで比べる
+            if (this.getSuit() == S) {  //比較元のスートがスペードの場合
+                return 1;
+            } else if (this.getSuit() == H) {  //比較元のスートがハートの場合
+                if (other.getSuit() == S) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else if (this.getSuit() == D) {  //比較元のスートがダイヤの場合
+                if (other.getSuit() == S || other.getSuit() == H) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            } else {  //比較元のカードのマークがクラブだった場合
+                return -1;
             }
         } else {    //それ以外は、ランク(の持つポイント(計算用))を比べる
-            return this.getRank().getCalculationPoint() < card.getRank().getCalculationPoint();
+            if (this.getRank().getCalculationPoint() < other.getRank().getCalculationPoint()) {
+                return -1;
+            } else {
+                return 1;
+            }
         }
     }
 }
