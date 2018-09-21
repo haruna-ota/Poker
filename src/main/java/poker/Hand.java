@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static poker.HandOfPokerEnum.*;
 
@@ -152,20 +153,7 @@ public class Hand {
 
     //手札をソートする(昇順)
     private List<Card> sortHand(List<Card> cards) {
-        int length = cards.size();
-        List<Card> sortedHand = new ArrayList<>();  //ソート済みの手札
-        Card min;   //暫定最小ランク値のカード
-
-        for (int i = 0; i < length; i++) {
-            min = cards.get(0);
-            for (int j = 0; j < cards.size(); j++) {
-                if (cards.get(j).compare(min)) {     //min(暫定の最小カード)の方が大きければtrueを返す
-                    min = cards.get(j);  //暫定を入れ替える
-                }
-            }
-            sortedHand.add(min);
-            cards.remove(min);
-        }
+        List<Card> sortedHand = cards.stream().sorted().collect(Collectors.toList());
         return sortedHand;
     }
 

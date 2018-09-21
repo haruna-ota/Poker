@@ -2,7 +2,7 @@ package poker;
 
 import java.util.Objects;
 
-public class Rank {
+public class Rank implements Comparable<Rank> {
     private final int displayPoint;     //カードのランクに対するポイント(表示用)(ex.エースの場合:1)
     private final String name;          //カードのランクの名前(表示用)(ex.エースの場合:A)
     private final int calculationPoint; //カードのランクに対するポイント(計算用)(ex.エースの場合:14)
@@ -62,5 +62,10 @@ public class Rank {
     public int hashCode() {
 
         return Objects.hash(displayPoint, name, calculationPoint);
+    }
+
+    @Override
+    public int compareTo(Rank other) {
+        return Integer.compare(this.calculationPoint, other.calculationPoint);
     }
 }
