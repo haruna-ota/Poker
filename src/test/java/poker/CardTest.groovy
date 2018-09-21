@@ -1,7 +1,9 @@
 package poker
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
+@Unroll
 class CardTest extends Specification {
     def toStringCard() {
         expect:
@@ -24,7 +26,7 @@ class CardTest extends Specification {
         suit1          | displayPoint1 | suit2          | displayPoint2 | exp
         CardSuitEnum.S | 2             | CardSuitEnum.S | 3             | -1    //スートが同じ場合(2<3)
         CardSuitEnum.D | 5             | CardSuitEnum.H | 5             | -1    //ランクが同じ場合(D<H)
-        CardSuitEnum.H | 13            | CardSuitEnum.C | 13            | 1     //ランクが同じ場合(H>C)
+        CardSuitEnum.H | 13            | CardSuitEnum.C | 13            | 2     //ランクが同じ場合(H>C)
         CardSuitEnum.D | 1             | CardSuitEnum.S | 13            | 1    //スートもランクも違う場合(13<1)
     }
 }
