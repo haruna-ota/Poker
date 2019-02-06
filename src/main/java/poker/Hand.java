@@ -1,23 +1,22 @@
 package poker;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static poker.HandOfPokerEnum.*;
 
+@EqualsAndHashCode
+@AllArgsConstructor
 public class Hand {
     private List<Card> cards;    //手札
-
-    //コンストラクタ
-    public Hand(List<Card> cards) {
-        this.cards = sortHand(cards);
-    }
 
     //toString　手札表示用
     @Override
@@ -162,17 +161,4 @@ public class Hand {
         return asRankPoints().get(0) == 10; //先頭が10から始まっているか確かめる
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Hand hand = (Hand) o;
-        return Objects.equals(cards, hand.cards);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(cards);
-    }
 }

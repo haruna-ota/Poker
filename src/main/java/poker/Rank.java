@@ -1,10 +1,13 @@
 package poker;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@EqualsAndHashCode
 public class Rank implements Comparable<Rank> {
     private final int displayPoint;     //カードのランクに対するポイント(表示用)(ex.エースの場合:1)
     private final String name;          //カードのランクの名前(表示用)(ex.エースの場合:A)
+    @Getter
     private final int calculationPoint; //カードのランクに対するポイント(計算用)(ex.エースの場合:14)
 
     //コンストラクタ
@@ -36,32 +39,6 @@ public class Rank implements Comparable<Rank> {
     @Override
     public String toString() {
         return name;
-    }
-
-    //getter
-    public int getDisplayPoint() {
-        return displayPoint;
-    }
-
-    //getter
-    public int getCalculationPoint() {
-        return calculationPoint;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Rank rank = (Rank) o;
-        return displayPoint == rank.displayPoint &&
-                calculationPoint == rank.calculationPoint &&
-                Objects.equals(name, rank.name);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(displayPoint, name, calculationPoint);
     }
 
     @Override

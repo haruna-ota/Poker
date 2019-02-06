@@ -1,5 +1,8 @@
 package poker;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public enum HandOfPokerEnum {
     //ポーカの役(強い順:10役)
     ROYAL_STRAIGHTFLUSH("ロイヤルストレートフラッシュ"),
@@ -14,11 +17,6 @@ public enum HandOfPokerEnum {
     HIGH_CARDS("ハイカード");
 
     private String name;    //役名
-
-    //コンストラクタ
-    private HandOfPokerEnum(String name) {
-        this.name = name;
-    }
 
     //toString（手札の役名表示用）
     @Override
