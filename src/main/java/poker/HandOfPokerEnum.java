@@ -16,7 +16,7 @@ public enum HandOfPokerEnum {
     ONE_PAIR("1ペア"),
     HIGH_CARDS("ハイカード");
 
-    private String name;    //役名
+    private final String name;    //役名
 
     //toString（手札の役名表示用）
     @Override

@@ -1,6 +1,5 @@
 package poker;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
@@ -14,9 +13,13 @@ import java.util.stream.Collectors;
 import static poker.HandOfPokerEnum.*;
 
 @EqualsAndHashCode
-@AllArgsConstructor
 public class Hand {
-    private List<Card> cards;    //手札
+    private final List<Card> cards;    //手札
+
+    //コンストラクタ
+    public Hand(List<Card> cards) {
+        this.cards = sortHand(cards);
+    }
 
     //toString　手札表示用
     @Override
@@ -26,14 +29,10 @@ public class Hand {
 
     //フラッシュかどうか判定するメソッド
     public boolean isFlush() {
-        int sameSuitCount = 0;  //手札に同じマークが何枚あるか数える
-        for (Card card : cards) {
-            if (cards.get(0).getSuit() == card.getSuit()) {   //2枚目以降が、1枚目のマークと同じかどうか確認
-                sameSuitCount++;    //1枚目と同じ場合はカウントを増やす
-            }
-        }
-        //手札5枚が全て同じマークだった場合trueを返す
-        return sameSuitCount == 5;
+        return cards.stream()
+                .map(card -> card.getSuit())    //SuitだけのStream
+                .distinct()
+                .count() == 1;  //マークが1つに絞れたら
     }
 
     //ワンペアかどうか判断するメソッド
