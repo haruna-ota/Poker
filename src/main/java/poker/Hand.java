@@ -29,10 +29,9 @@ public class Hand {
 
     //フラッシュかどうか判定するメソッド
     public boolean isFlush() {
+        Card firstCard = cards.get(0);  //手札の1枚目のカード(比較元)
         return cards.stream()
-                .map(card -> card.getSuit())    //SuitだけのStream
-                .distinct()
-                .count() == 1;  //マークが1つに絞れたら
+                .allMatch(card -> card.getSuit() == firstCard.getSuit());   //比較元と比較先のカードで全てマークが一致したらtrue
     }
 
     //ワンペアかどうか判断するメソッド
