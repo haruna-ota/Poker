@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static poker.HandOfPokerEnum.*;
 
@@ -36,7 +37,11 @@ public class Hand {
 
     //ワンペアかどうか判断するメソッド
     public boolean isOnePair() {
-        return countTheNumberOfNCards(2) == 1;  //手札5枚のうち2枚1組が1つあった場合trueを返す
+        //手札をカードのランクでグルーピングする
+        Map<Rank, Long> groupingByRank = cards.stream()
+                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
+        //グルーピングした中に、2枚カードが入っているグループが1つあれば1ペア
+        return groupingByRank.entrySet().stream().anyMatch(g -> g.getValue() == 2);
     }
 
     //3カードかどうか判断するメソッド
