@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static poker.HandOfPokerEnum.*;
 
@@ -41,7 +40,7 @@ public class Hand {
         Map<Rank, Long> groupingByRank = cards.stream()
                 .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
         //グルーピングした中に、2枚カードが入っているグループが1つあれば1ペア
-        return groupingByRank.entrySet().stream().anyMatch(g -> g.getValue() == 2);
+        return groupingByRank.entrySet().stream().filter(g -> g.getValue() == 2).count() == 1;
     }
 
     //3カードかどうか判断するメソッド
