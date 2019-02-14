@@ -54,7 +54,11 @@ public class Hand {
 
     //4カードかどうか判断するメソッド
     public boolean isFourOfAKind() {
-        return countTheNumberOfNCards(4) == 1;  //手札5枚のうち4枚1組が1つあった場合trueを返す
+        //手札をカードのランクでグルーピングする
+        Map<Rank, Long> groupingByRank = cards.stream()
+                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
+        //グルーピングした中に、4枚カードが入っているグループが1つあれば1ペア
+        return groupingByRank.entrySet().stream().filter(g -> g.getValue() == 4).count() == 1;
     }
 
     //2ペアかどうか判断するメソッド
