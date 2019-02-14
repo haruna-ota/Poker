@@ -63,7 +63,11 @@ public class Hand {
 
     //2ペアかどうか判断するメソッド
     public boolean isTwoPair() {
-        return countTheNumberOfNCards(2) == 2;  //手札5枚のうち2枚1組が2つあった場合trueを返す
+        //手札をカードのランクでグルーピングする
+        Map<Rank, Long> groupingByRank = cards.stream()
+                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
+        //グルーピングした中に、2枚カードが入っているグループが2つあれば2ペア
+        return groupingByRank.entrySet().stream().filter(g -> g.getValue() == 2).count() == 2;
     }
 
     //フルハウスかどうか判断するメソッド
