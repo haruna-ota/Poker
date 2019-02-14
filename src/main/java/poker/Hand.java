@@ -45,7 +45,11 @@ public class Hand {
 
     //3カードかどうか判断するメソッド
     public boolean isThreeOfAKind() {
-        return countTheNumberOfNCards(3) == 1;  //手札5枚のうち3枚1組が1つあった場合trueを返す
+        //手札をカードのランクでグルーピングする
+        Map<Rank, Long> groupingByRank = cards.stream()
+                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
+        //グルーピングした中に、3枚カードが入っているグループが1つあれば1ペア
+        return groupingByRank.entrySet().stream().filter(g -> g.getValue() == 3).count() == 1;
     }
 
     //4カードかどうか判断するメソッド
