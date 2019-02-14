@@ -3,11 +3,8 @@ package poker;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static poker.HandOfPokerEnum.*;
@@ -34,45 +31,29 @@ public class Hand {
                 .allMatch(card -> card.getSuit() == firstCard.getSuit());   //比較元と比較先のカードで全てマークが一致したらtrue
     }
 
-    //ワンペアかどうか判断するメソッド
+    //1ペアかどうか判断するメソッド
     public boolean isOnePair() {
-        //手札をカードのランクでグルーピングする
-        Map<Rank, Long> groupingByRank = cards.stream()
-                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
-        //グルーピングした中に、2枚カードが入っているグループが1つあれば1ペア
-        return groupingByRank.entrySet().stream().filter(g -> g.getValue() == 2).count() == 1;
+        return countTheNumberOfNCards(2, 1);    //重複しているランクの枚数:2,重複しているランクがいくつあるか:1
     }
 
     //3カードかどうか判断するメソッド
     public boolean isThreeOfAKind() {
-        //手札をカードのランクでグルーピングする
-        Map<Rank, Long> groupingByRank = cards.stream()
-                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
-        //グルーピングした中に、3枚カードが入っているグループが1つあれば1ペア
-        return groupingByRank.entrySet().stream().filter(g -> g.getValue() == 3).count() == 1;
+        return countTheNumberOfNCards(3, 1);    //重複しているランクの枚数:3,重複しているランクがいくつあるか:1
     }
 
     //4カードかどうか判断するメソッド
     public boolean isFourOfAKind() {
-        //手札をカードのランクでグルーピングする
-        Map<Rank, Long> groupingByRank = cards.stream()
-                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
-        //グルーピングした中に、4枚カードが入っているグループが1つあれば1ペア
-        return groupingByRank.entrySet().stream().filter(g -> g.getValue() == 4).count() == 1;
+        return countTheNumberOfNCards(4, 1);    //重複しているランクの枚数:4,重複しているランクがいくつあるか:1
     }
 
     //2ペアかどうか判断するメソッド
     public boolean isTwoPair() {
-        //手札をカードのランクでグルーピングする
-        Map<Rank, Long> groupingByRank = cards.stream()
-                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
-        //グルーピングした中に、2枚カードが入っているグループが2つあれば2ペア
-        return groupingByRank.entrySet().stream().filter(g -> g.getValue() == 2).count() == 2;
+        return countTheNumberOfNCards(2, 2);    //重複しているランクの枚数:2,重複しているランクがいくつあるか:2
     }
 
     //フルハウスかどうか判断するメソッド
     public boolean isFullHouse() {
-        return countTheNumberOfNCards(3) == 1 && countTheNumberOfNCards(2) == 1;    //手札が3カードかつ1ペアを満たしている場合trueを返す
+        return countTheNumberOfNCards(3, 1) && countTheNumberOfNCards(2, 1);    //手札が3カードかつ1ペアを満たしている場合trueを返す
     }
 
     //ストレートかどうか判断するメソッド
@@ -125,33 +106,14 @@ public class Hand {
     }
 
     //手札の中にn枚組がいくつあるか計算する
-    private int countTheNumberOfNCards(int numberOfTheSameRank) {
-
-        List<Integer> rankPoints = asRankPoints();    //ランクのみの手札
-        Set<Integer> keys = new HashSet<>(rankPoints);  //手札の中で重複しているランクをまとめたリスト
-
-        Map<Integer, Integer> nMap = new HashMap<>();   //<Integer:ランク,Integer:枚数(count)>
-
-        int count;  //重複しているランクを数える用
-        for (int key : keys) {
-            count = 0;
-            for (int rank : rankPoints) {
-                if (key == rank) {  //手札に同じランクが見つかったらカウントを増やす
-                    count++;
-                }
-            }
-            nMap.put(key, count);   //mapに追加する際に比較元の1枚を加える
-
-        }
-
-        //手札の重複ランクのセット数を数える
-        int numberOfSameRankSet = 0;
-        for (int value : nMap.values()) {
-            if (value == numberOfTheSameRank) {
-                numberOfSameRankSet++;
-            }
-        }
-        return numberOfSameRankSet;
+    private boolean countTheNumberOfNCards(int numberOfDuplicating, int numberOfDuplicatingPairs) {
+        //手札をカードのランクでグルーピングする
+        Map<Rank, Long> groupingByRank = cards.stream()
+                .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
+        return groupingByRank.entrySet()
+                .stream()
+                .filter(g -> g.getValue() == numberOfDuplicating)
+                .count() == numberOfDuplicatingPairs;
     }
 
     //手札を変換する(ランクポイントのみ)
