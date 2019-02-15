@@ -2,10 +2,10 @@ package poker;
 
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static poker.HandOfPokerEnum.*;
 
@@ -58,16 +58,18 @@ public class Hand {
 
     //ストレートかどうか判断するメソッド
     public boolean isStraight() {
-        List<Integer> rankPoints = asRankPoints();    //ランクのみの手札
+        //比較元の手札を生成(連番の手札)
+        Card firstCard = cards.get(0); //手札の1枚目のカード
+        List<Integer> comparisonHand = IntStream.rangeClosed(
+                firstCard.getRank().getCalculationPoint(),
+                firstCard.getRank().getCalculationPoint() + 4
+        ).boxed().collect(Collectors.toList());
 
-        int trueCount = 0;  //隣り合うランクのカードかの判断用
-
-        for (int i = 0; i < rankPoints.size() - 1; i++) {
-            if (rankPoints.get(i).equals(rankPoints.get(i + 1) - 1)) {    //現在見ているカードが次カードのランクから1引いたものであればok(隣り合うランク)
-                trueCount++;
-            }
-        }
-        return trueCount == 4;
+        //比較したい手札をランクのみの手札にする
+        List<Integer> originalHand = cards.stream()
+                .map(card -> card.getRank().getCalculationPoint())
+                .collect(Collectors.toList());
+        return comparisonHand.equals(originalHand);   //比較元と比較先の手札が一致したらtrueを返す
     }
 
     //ストレートフラッシュかどうか判断するメソッド
@@ -116,16 +118,6 @@ public class Hand {
                 .count() == numberOfDuplicatingPairs;
     }
 
-    //手札を変換する(ランクポイントのみ)
-    private List<Integer> asRankPoints() {
-        List<Integer> rh = new ArrayList<>();
-
-        for (Card card : cards) {
-            rh.add(card.getRank().getCalculationPoint()); //ランクポイントだけを追加していく
-        }
-        return rh;
-    }
-
     //手札をソートする(昇順)
     private List<Card> sortHand(List<Card> cards) {
         List<Card> sortedHand = cards.stream().sorted().collect(Collectors.toList());
@@ -134,7 +126,7 @@ public class Hand {
 
     //ソートした手札の先頭をチェックするメソッド
     private boolean isTenStart() {
-        return asRankPoints().get(0) == 10; //先頭が10から始まっているか確かめる
+        return cards.get(0).getRank().getCalculationPoint() == 10; //先頭が10から始まっているか確かめる
     }
 
 }
